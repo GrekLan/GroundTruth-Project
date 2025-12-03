@@ -35,16 +35,16 @@ System Architecture:
 * Anomaly Detection: I implemented the Isolation Forest algorithm (Scikit-Learn) to mathematically identify "weird" data points (outliers) rather than just using hard-coded if/else rules.
 * Generative AI (The Analyst): We pass the anomaly metadata to Google Gemini 1.5 Pro. We use a Few-Shot Prompt technique to force the AI to sound like a Senior Data Analyst.
 * Guardrail: I implemented a validation step to ensure the AI's math matches the Pandas dataframe to prevent hallucinations.
-* Reporting: WeasyPrint renders the final HTML/CSS report into a pixel-perfect PDF.
+* Reporting: ReportLab generates professional PDF reports with executive-style formatting and embedded visualizations.
 
 ## 4. Tech Stack
 
-* Language: Python 3.11
+* Language: Python 3.11+ (Compatible with 3.13)
 * Data Engine: Pandas (Python Data Analysis Library)
 * Machine Learning: Scikit-Learn (Isolation Forest)
-* AI Model: Google Gemini 1.5 Pro (via Vertex AI)
+* AI Model: Google Gemini 1.5 Pro (via Generative AI SDK)
 * Orchestration: Docker & Docker Compose
-* Visualization: Plotly & WeasyPrint
+* Visualization: Plotly (Charts) & ReportLab (PDF Generation)
 
 ## 5. Challenges & Learnings
 
@@ -74,18 +74,39 @@ Final Output sent to client via Email
 
 ## 7. How to Run
 
+### Local Setup
+
 ```bash
-# 1. Clone Repository
-git clone https://github.com/GrekLan/GroundTruth-Project.git
+# 1. Install Dependencies
+pip install -r requirements.txt
 
-# 2. Add API Key
-export GEMINI_API_KEY="your_key_here"
+# 2. Generate Mock Data
+python generate_mock_data.py
 
-# 3. Build & Run Container
+# 3. (Optional) Add API Key
+# Create .env file and add:
+# GEMINI_API_KEY="your_key_here"
+
+# 4. Run Pipeline
+python main.py
+
+# 5. View Output
+# Check Output/output.pdf for the generated report
+```
+
+### Docker Deployment
+
+```bash
+# 1. Generate Mock Data First
+python generate_mock_data.py
+
+# 2. Build & Run Container
 docker-compose up --build
 
-# 4. Test
-# Move the sample.csv to the input folder to trigger the pipeline
-mv data/sample.csv data/input/
+# 3. Output persists to local Output/ folder
+# Check Output/output.pdf
 ```
+
+### Note
+The pipeline works WITHOUT an API key using intelligent fallback analysis. Add a Gemini API key for AI-powered insights.
 
